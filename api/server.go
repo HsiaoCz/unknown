@@ -23,6 +23,7 @@ func NewServer(listenAddr string, store storage.MysqlStorage) *Server {
 func (s *Server) Start() error {
 	r := mux.NewRouter()
 	r.HandleFunc("/user/{id}", s.handleGetUserByID).Methods("GET")
+	r.HandleFunc("/user/register", s.handleUserRegister).Methods("POST")
 	srv := http.Server{
 		Handler:      r,
 		Addr:         s.listenAddr,

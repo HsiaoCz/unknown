@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-hello/conf"
 	"go-hello/models"
+	"go-hello/utils"
 	"log"
 	"time"
 
@@ -11,13 +12,14 @@ import (
 	"gorm.io/gorm"
 )
 
+var dB *gorm.DB
+
 type MySqlStore struct {
 	mysql_user     string
 	mysql_password string
 	mysql_Host     string
 	mysql_port     string
 	db_Name        string
-	db             *gorm.DB
 }
 
 func NewMysqlStorage() *MySqlStore {
@@ -28,7 +30,6 @@ func NewMysqlStorage() *MySqlStore {
 		mysql_Host:     mysql_conf.Mysql_Host,
 		mysql_port:     mysql_conf.Mysql_port,
 		db_Name:        mysql_conf.DB_Name,
-		db:             &gorm.DB{},
 	}
 }
 
@@ -44,11 +45,11 @@ func (i Intsence) InitStorage() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	i.MSotre.db = db
-	i.MSotre.db.AutoMigrate(&models.User{})
+	dB = db
+	dB.AutoMigrate(&models.User{})
 	return err
 }
-func (s *MySqlStore) GetUserByID(identity int) *models.User {
+func (s *MySqlStore) GetUserByID(identity int64) *models.User {
 	return &models.User{
 		Username: "bob",
 		Password: "haha",
@@ -60,4 +61,21 @@ func (s *MySqlStore) GetUserByID(identity int) *models.User {
 		City:     "juadalahala",
 		Identity: identity,
 	}
+}
+
+func (s *MySqlStore) UserRegister(userRegister *models.UserRegister) error {
+	user := &models.User{
+		Username: userRegister.Username,
+		Password: utils.EncryptPassword(userRegister.Password),
+		Email:    userRegister.Emial,
+		Identity: utils.GetIdentity(),
+	}
+	restult := dB.Create(user)
+	return restult.Error
+}
+
+func (s *MySqlStore) GetUserByNameAndEmail(name string, email string) (int64, error) {
+	user := &models.User{}
+	result := dB.Where("username=? or email=?", name, email).Find(user)
+	return result.RowsAffected, result.Error
 }
