@@ -6,7 +6,6 @@ import (
 	"go-hello/models"
 	"go-hello/utils"
 	"log"
-	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -55,11 +54,11 @@ func (s *MySqlStore) GetUserByID(identity int64) *models.User {
 		Password: "haha",
 		Email:    "122222",
 		Content:  "halo how are u",
-		Birthday: time.Now(),
+		Birthday: "2020/1/11",
 		Company:  "CJNJ",
 		UserJob:  "drug deler",
 		City:     "juadalahala",
-		Identity: identity,
+		Number:   12223333333,
 	}
 }
 
@@ -68,7 +67,14 @@ func (s *MySqlStore) UserRegister(userRegister *models.UserRegister) error {
 		Username: userRegister.Username,
 		Password: utils.EncryptPassword(userRegister.Password),
 		Email:    userRegister.Emial,
-		Identity: utils.GetIdentity(),
+	}
+	for {
+		number := utils.GenUserNumber()
+		result := dB.Where("number=?", number).Find(user)
+		if result.RowsAffected == 0 {
+			user.Number = number
+			break
+		}
 	}
 	restult := dB.Create(user)
 	return restult.Error

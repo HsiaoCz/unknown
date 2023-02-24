@@ -4,11 +4,9 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"log"
+	"math/rand"
 	"net/http"
 	"time"
-
-	"github.com/bwmarrin/snowflake"
 )
 
 var my_secert = "xiaofanyi"
@@ -30,19 +28,24 @@ func EncryptPassword(password string) string {
 
 // validator error
 func ValidatorError(err error) string {
-	return "输入内容不和法,请重新输入"
+	return "输入内容不合法,请重新输入"
 }
 
-func GetIdentity() int64 {
-	var st time.Time
-	st, err := time.Parse("2006-01-02", "2023-02-24")
-	if err != nil {
-		log.Fatal(err)
-	}
-	snowflake.Epoch = st.UnixNano() / 10000
-	node, err := snowflake.NewNode(1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return node.Generate().Int64()
+//	func GetIdentity() int64 {
+//		var st time.Time
+//		st, err := time.Parse("2006-01-02", "2023-02-24")
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		snowflake.Epoch = st.UnixNano() / 10000
+//		node, err := snowflake.NewNode(1)
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		return node.Generate().Int64()
+//	}
+
+func GenUserNumber() int64 {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	return rand.Int63n(1000000000)
 }

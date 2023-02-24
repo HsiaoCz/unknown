@@ -3,7 +3,6 @@ module go-hello
 go 1.20
 
 require (
-	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/gorilla/mux v1.8.0
