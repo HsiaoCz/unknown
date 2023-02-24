@@ -19,7 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	instence := storage.Intsence{}
 
+	err = storage.InitStorages(instence)
+	if err != nil {
+		log.Fatal(err)
+	}
 	mysql_store := storage.NewMysqlStorage()
 
 	srv := api.NewServer(*listenAddr, mysql_store)
