@@ -63,3 +63,21 @@ func (s *Server) handleUserRegister(w http.ResponseWriter, r *http.Request) {
 	})
 
 }
+
+func (s *Server) handleUserSignup(w http.ResponseWriter, r *http.Request) {
+	userSign := &models.UserSign{}
+	err := json.NewDecoder(r.Body).Decode(userSign)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rowAffected := s.store.UserSignup(userSign.Username, userSign.Password)
+	if rowAffected == 0 {
+		utils.EncodeJSON(w, http.StatusOK, utils.H{
+			"message": "用户名或密码错误",
+		})
+		return
+	}
+	utils.EncodeJSON(w, http.StatusOK, utils.H{
+		"message": "登录成功",
+	})
+}

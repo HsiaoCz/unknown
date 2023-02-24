@@ -27,6 +27,12 @@ type UserRegister struct {
 	RePassword string `validate:"required,eqfield=Password" json:"re_password"`
 }
 
+type UserSign struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}
+
 func (u User) TableName() string {
 	return "user"
 }

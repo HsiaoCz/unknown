@@ -6,9 +6,10 @@ import (
 )
 
 type MysqlStorage interface {
-	GetUserByNameAndEmail(string, string)(int64,error)
+	GetUserByNameAndEmail(string, string) (int64, error)
 	UserRegister(*models.UserRegister) error
 	GetUserByID(int64) *models.User
+	UserSignup(string, string) int64
 }
 
 // init storage interface

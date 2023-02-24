@@ -62,6 +62,7 @@ func (s *MySqlStore) GetUserByID(identity int64) *models.User {
 	}
 }
 
+// user register
 func (s *MySqlStore) UserRegister(userRegister *models.UserRegister) error {
 	user := &models.User{
 		Username: userRegister.Username,
@@ -84,4 +85,12 @@ func (s *MySqlStore) GetUserByNameAndEmail(name string, email string) (int64, er
 	user := &models.User{}
 	result := dB.Where("username=? or email=?", name, email).Find(user)
 	return result.RowsAffected, result.Error
+}
+
+// user signup
+
+func (s *MySqlStore) UserSignup(username string, password string) int64 {
+	user := &models.User{}
+	result := dB.Where("username=? AND password=?", username, utils.EncryptPassword(password)).Find(user)
+	return result.RowsAffected
 }

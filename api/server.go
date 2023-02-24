@@ -24,6 +24,7 @@ func (s *Server) Start() error {
 	r := mux.NewRouter()
 	r.HandleFunc("/user/{id}", s.handleGetUserByID).Methods("GET")
 	r.HandleFunc("/user/register", s.handleUserRegister).Methods("POST")
+	r.HandleFunc("/user/signup", s.handleUserSignup).Methods("POST")
 	srv := http.Server{
 		Handler:      r,
 		Addr:         s.listenAddr,
