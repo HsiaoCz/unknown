@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"go-hello/api"
+	"go-hello/conf"
 	"go-hello/storage"
 	"log"
 )
@@ -12,6 +13,12 @@ func main() {
 	flag.Parse()
 
 	log.Println("the service is running on port", *listenAddr)
+
+	// init config
+	err := conf.InitConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	mysql_store := storage.NewMysqlStorage()
 
