@@ -77,7 +77,12 @@ func (s *Server) handleUserSignup(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+	token, err := GenJWT()
+	if err != nil {
+		log.Fatal(err)
+	}
 	utils.EncodeJSON(w, http.StatusOK, utils.H{
 		"message": "登录成功",
+		"token":   token,
 	})
 }

@@ -9,7 +9,7 @@ type User struct {
 	gorm.Model
 	Username string `gorm:"column:username;type:varchar(20);" json:"username"`
 	Password string `gorm:"column:password;type:varchar(100);" json:"password"`
-	Number   int64  `gorm:"column:number;type:int;" json:"identity"`
+	Number   int64  `gorm:"column:number;type:int;" json:"number"`
 	Content  string `gorm:"column:content;type:varchar(200);" json:"content"`
 	Company  string `gorm:"column:company;type:varchar(100);" json:"company"`
 	UserJob  string `gorm:"column:user_job;type:varchar(100);" json:"user_job"`
