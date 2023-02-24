@@ -37,6 +37,7 @@ type Intsence struct {
 }
 
 func (i Intsence) InitStorage() error {
+	i.MSotre = NewMysqlStorage()
 	dsn := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", i.MSotre.mysql_user, i.MSotre.mysql_password, i.MSotre.mysql_Host, i.MSotre.mysql_port, i.MSotre.db_Name)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -44,6 +45,7 @@ func (i Intsence) InitStorage() error {
 		log.Fatal(err)
 	}
 	i.MSotre.db = db
+	i.MSotre.db.AutoMigrate(&models.User{})
 	return err
 }
 func (s *MySqlStore) GetUserByID(identity int) *models.User {

@@ -9,6 +9,9 @@ type MysqlStorage interface {
 	GetUserByID(int) *models.User
 }
 
+
+// init storage interface
+// use it to connect the storage
 type InitStore interface {
 	InitStorage() error
 }
