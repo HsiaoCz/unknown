@@ -82,10 +82,10 @@ spec:
 ```go
 // json.NewDecoder(r).Decode(v)
 dec := json.NewDecoder(r.Body)
-	err := dec.Decode(&userRes)
-	if err != nil {
-		log.Fatal(err)
-	}
+ err := dec.Decode(&userRes)
+ if err != nil {
+  log.Fatal(err)
+ }
 ```
 
 ### 使用 validator 进行参数校验
@@ -94,10 +94,10 @@ dec := json.NewDecoder(r.Body)
 
 ```go
 vaildate := validator.New()
-	if err := vaildate.Struct(userRes); err != nil {
-		fmt.Fprintln(w, err)
-		return
-	}
+ if err := vaildate.Struct(userRes); err != nil {
+  fmt.Fprintln(w, err)
+  return
+ }
 ```
 
 **1、这留了一个问题，就是这个错误响应没有本地化，这个问题后面解决**
@@ -137,3 +137,6 @@ go get github.com/golang-jwt/jwt/v4
 实现登录校验的中间件
 
 **6、实现中间件校验 token，以及路由分组**
+
+实现中间件的登录校验功能，以及分组路由
+实现根据ID获取用户信息的功能

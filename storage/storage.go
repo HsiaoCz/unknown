@@ -8,7 +8,7 @@ import (
 type MysqlStorage interface {
 	GetUserByNameAndEmail(string, string) (int64, error)
 	UserRegister(*models.UserRegister) error
-	GetUserByID(int64) *models.User
+	GetUserByID(int64) (*models.UserByID, error)
 	UserSignup(string, string) int64
 }
 

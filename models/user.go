@@ -18,6 +18,10 @@ type User struct {
 	Email    string `gorm:"column:email;type:varchar(100);" json:"email"`
 }
 
+func (u User) TableName() string {
+	return "user"
+}
+
 // user register struct
 
 type UserRegister struct {
@@ -33,6 +37,13 @@ type UserSign struct {
 	Email    string `json:"email"`
 }
 
-func (u User) TableName() string {
-	return "user"
+type UserByID struct {
+	Username string `json:"username"`
+	Number   int64  `json:"number"`
+	Content  string `json:"content"`
+	Company  string `json:"company"`
+	UserJob  string `json:"user_job"`
+	Birthday string `json:"birthday"`
+	City     string `json:"city"`
+	Email    string `json:"email"`
 }

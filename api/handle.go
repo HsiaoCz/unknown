@@ -20,7 +20,13 @@ func (s *Server) handleGetUserByID(w http.ResponseWriter, r *http.Request) {
 			"message": "valid id",
 		})
 	}
-	user := s.store.GetUserByID(int64(id))
+	user, err := s.store.GetUserByID(int64(id))
+	if err != nil {
+		utils.EncodeJSON(w, http.StatusOK, utils.H{
+			"message": "获取失败,无效的number",
+		})
+		return
+	}
 	err = utils.EncodeJSON(w, http.StatusOK, utils.H{
 		"message": "获取成功",
 		"data":    user,

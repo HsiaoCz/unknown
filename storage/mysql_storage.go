@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"errors"
 	"fmt"
 	"go-hello/conf"
 	"go-hello/models"
@@ -48,18 +49,13 @@ func (i Intsence) InitStorage() error {
 	dB.AutoMigrate(&models.User{})
 	return err
 }
-func (s *MySqlStore) GetUserByID(identity int64) *models.User {
-	return &models.User{
-		Username: "bob",
-		Password: "haha",
-		Email:    "122222",
-		Content:  "halo how are u",
-		Birthday: "2020/1/11",
-		Company:  "CJNJ",
-		UserJob:  "drug deler",
-		City:     "juadalahala",
-		Number:   12223333333,
+func (s *MySqlStore) GetUserByID(number int64) (*models.UserByID, error) {
+	userByID := &models.UserByID{}
+	result := dB.Model(&models.User{}).Where("number=?", number).Find(userByID)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("invaild number")
 	}
+	return userByID, nil
 }
 
 // user register
